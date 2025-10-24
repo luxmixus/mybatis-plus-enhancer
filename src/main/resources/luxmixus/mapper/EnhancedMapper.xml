@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="io.github.luxmixus.mybatisplus.enhancer.EnhancedMapper">
+
+    <sql id="queryFragment">
+        <if test="param1 != null">
+            <foreach collection="param1" item="gen">
+                <if test="gen.conditions != null and gen.conditions.size() > 0">
+                    <trim prefix="AND (" suffix=")" prefixOverrides="AND|OR">
+                        <foreach collection="gen.conditions" item="item">
+                            ${gen.connector}<choose>
+                                <when test="item.operator == 'IN' or item.operator == 'NOT IN'">
+                                    ${item.field} ${item.operator}
+                                    <foreach collection="item.value" item="val" separator="," open="(" close=")">
+                                        #{val}
+                                    </foreach>
+                                </when>
+                                <when test="item.operator == 'IS NULL' or item.operator == 'IS NOT NULL'">
+                                    ${item.field} ${item.operator}
+                                </when>
+                                <when test="item.operator == '&amp;&gt;'">
+                                    ${item.field} &amp; #{item.value} &gt; 0
+                                </when>
+                                <when test="item.operator == '&amp;='">
+                                    ${item.field} &amp; #{item.value} = 0
+                                </when>
+                                <otherwise>
+                                    ${item.field} ${item.operator} #{item.value}
+                                </otherwise>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </if>
+    </sql>
+
+    <sql id="sortFragment">
+        <if test="param1 != null and param1.sorts != null and param1.sorts.size() > 0">
+            <foreach collection="param1.sorts" item="item" separator="," open=",">
+                ${item.field}<if test="item.isDesc()"> DESC</if>
+            </foreach>
+        </if>
+    </sql>
+
+</mapper>

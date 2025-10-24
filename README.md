@@ -1,8 +1,8 @@
 # mybatis-plus-enhancer
 
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.bootystar/mybatis-plus-enhancer)](https://mvnrepository.com/artifact/io.github.bootystar/mybatis-plus-enhancer)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.luxmixus/mybatis-plus-enhancer)](https://mvnrepository.com/artifact/io.github.luxmixus/mybatis-plus-enhancer)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-[![GitHub](https://img.shields.io/github/stars/bootystar/mybatis-plus-enhancer?style=social)](https://github.com/bootystar/mybatis-plus-enhancer)
+[![GitHub](https://img.shields.io/github/stars/luxmixus/mybatis-plus-enhancer?style=social)](https://github.com/luxmixus/mybatis-plus-enhancer)
 
 MyBatis-Plus 增强工具包，提供动态SQL构建、后缀映射查询、IService和BaseMapper增强功能，以及Excel导入导出支持。
 
@@ -24,15 +24,15 @@ MyBatis-Plus 增强工具包，提供动态SQL构建、后缀映射查询、ISer
 
 ## 仓库地址
 
-- GitHub: https://github.com/bootystar/mybatis-plus-enhancer
-- Maven Central: https://central.sonatype.com/artifact/io.github.bootystar/mybatis-plus-enhancer
+- GitHub: https://github.com/luxmixus/mybatis-plus-enhancer
+- Maven Central: https://central.sonatype.com/artifact/io.github.luxmixus/mybatis-plus-enhancer
 
 ## maven依赖
 当前最新版本为:  
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.bootystar/mybatis-plus-enhancer)](https://mvnrepository.com/artifact/io.github.bootystar/mybatis-plus-enhancer)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.luxmixus/mybatis-plus-enhancer)](https://mvnrepository.com/artifact/io.github.luxmixus/mybatis-plus-enhancer)
 ```xml
 <dependency>
-    <groupId>io.github.bootystar</groupId>
+    <groupId>io.github.luxmixus</groupId>
     <artifactId>mybatis-plus-enhancer</artifactId>
     <version>latest</version>
 </dependency>
@@ -61,9 +61,9 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 
 ### 2. 扩展mapper接口
 * 创建或指定`VO类`, 用于展示查询结果
-* 使`mapper`接口继承[EnhancedMapper](src/main/java/io/github/bootystar/mybatisplus/enhancer/EnhancedMapper.java), 并指定泛型为VO类
+* 使`mapper`接口继承[EnhancedMapper](src/main/java/io/github/luxmixus/mybatisplus/enhancer/EnhancedMapper.java), 并指定泛型为VO类
 * 通过`工具类`获取`mapper.xml`内容, 并将其复制到对应xml文件中
-* (可选) 若有service层, 可使service实现[EnhancedService](src/main/java/io/github/bootystar/mybatisplus/enhancer/EnhancedService.java)接口, 即可拥有mapper对应所有方法
+* (可选) 若有service层, 可使service实现[EnhancedService](src/main/java/io/github/luxmixus/mybatisplus/enhancer/EnhancedService.java)接口, 即可拥有mapper对应所有方法
 
 
 ```java
@@ -83,7 +83,7 @@ public interface SysUserMapper extends BaseMapper<SysUser>,
 ```
 
 ```java
-import io.github.bootystar.mybatisplus.enhancer.util.MapperUtil;
+import util.io.github.luxmixus.mybatisplus.enhancer.MapperUtil;
 
 // 通过工具类获取mapper.xml文件的sql片段
 public static void main(String[] args) {
@@ -96,10 +96,10 @@ public static void main(String[] args) {
 <select id="voQueryByXml" resultType="com.example.test.vo.SysUserVO">
     SELECT a.* FROM sys_user a
     <where>
-        <include refid="io.github.bootystar.mybatisplus.enhancer.EnhancedMapper.queryFragment"/>
+        <include refid="io.github.luxmixus.mybatisplus.enhancer.EnhancedMapper.queryFragment"/>
     </where>
     <trim prefix="ORDER BY" prefixOverrides=",">
-        <include refid="io.github.bootystar.mybatisplus.enhancer.EnhancedMapper.sortFragment"/>
+        <include refid="io.github.luxmixus.mybatisplus.enhancer.EnhancedMapper.sortFragment"/>
     </trim>
 </select>
 ```
@@ -107,7 +107,7 @@ public static void main(String[] args) {
 ### 3. 使用示例
 
 ```java
-import io.github.bootystar.mybatisplus.enhancer.query.helper.SqlHelper;
+import helper.query.io.github.luxmixus.mybatisplus.enhancer.SqlHelper;
 import java.util.List;
 import java.util.Map;
 
@@ -497,7 +497,7 @@ public class SysUserVO implements EnhancedEntity {
     left join sys_role b on a.role_id = b.id
     left join sys_dept c on a.dept_id = c.id
     <where>
-        <include refid="io.github.bootystar.mybatisplus.enhancer.EnhancedMapper.queryFragment"/>
+        <include refid="io.github.luxmixus.mybatisplus.enhancer.EnhancedMapper.queryFragment"/>
         <!--判断并字段是否存在值, 存在则添加条件-->
         <if test="param1.unmapped.roleName!=null">
             AND b.name = #{param1.unmapped.roleName}
@@ -507,7 +507,7 @@ public class SysUserVO implements EnhancedEntity {
         </if>
     </where>
     <trim prefix="ORDER BY" prefixOverrides=",">
-        <include refid="io.github.bootystar.mybatisplus.enhancer.EnhancedMapper.sortFragment"/>
+        <include refid="io.github.luxmixus.mybatisplus.enhancer.EnhancedMapper.sortFragment"/>
         <!--添加自定义排序条件-->
         , a.create_time DESC, a.id DESC
     </trim>
