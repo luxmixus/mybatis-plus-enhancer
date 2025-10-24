@@ -43,6 +43,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <springboot.version>2.7.18</springboot.version>
         <mybatis.plus.version>3.5.12</mybatis.plus.version>
+        <lombok.version>1.18.34</lombok.version>
     </properties>
     
     <dependencyManagement>
@@ -77,15 +78,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>2.0.7</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.34</version>
+            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
